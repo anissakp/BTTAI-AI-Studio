@@ -19,10 +19,10 @@ const App = () => {
     const handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
-        // Log the coordinates for now
+        // log the coordinates for now
         console.log('Coordinates:', coordinates);
 
-        // Validate the time frame input format
+        // validate the time frame input format
         const timeFrameRegex = /^\d{4}-\d{2}-\d{2}\/\d{4}-\d{2}-\d{2}$/;
         if (!timeFrameRegex.test(timeFrame)) {
             console.error('Invalid time frame format. Please use "YYYY-MM-DD/YYYY-MM-DD".');
@@ -30,7 +30,7 @@ const App = () => {
         }
 
         console.log('Time Frame:', timeFrame);
-        // Add logic to handle the input values here
+        // add logic to handle the input values here
     };
 
     return (
