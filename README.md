@@ -1,6 +1,7 @@
 # Break Through Tech AI Studio Project
 
 ## Description
+Forecast water quality indices by leveraging ML and generative AI techniques.
 
 ## Installation
 Follow these steps to set up the project locally:
