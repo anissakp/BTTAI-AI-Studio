@@ -45,7 +45,7 @@ tools = [
 def chat_with_model():
     # Start an empty message history
     messages = [
-        {"role": "system", "content": "You are a helpful assistant that can create time-series graphs of water bodies."}
+        {"role": "system", "content": "You are a helpful assistant that can create time-series forecast graphs for water quality of water bodies."}
     ]
 
     while True:
