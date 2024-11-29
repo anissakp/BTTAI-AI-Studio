@@ -28,7 +28,6 @@ Follow these steps to set up the project locally:
 ## Usage
 To run the application locally:
    ```bash
-   cd BTTAI-AI-Studio
    cd ChatBot
    python app.py
    ```
