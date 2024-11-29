@@ -20,9 +20,9 @@ Follow these steps to set up the project locally:
    ```
 3. **Environment Configuration**
 
-   Create a .env file in the root of your project directory to store your OpenAI API key:
+   Create a .env file in root directory to store OpenAI API key:
    ```bash
-   API_KEY=your_openai_api_key_here
+   API_KEY = "your_openai_api_key_here"
    ```
 
 ## Usage
