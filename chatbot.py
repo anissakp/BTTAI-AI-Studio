@@ -2,9 +2,11 @@ import openai
 import json
 import os
 from dotenv import load_dotenv
-# Load secret .env file
+
+# load .env file
 load_dotenv()
 openai.api_key = os.getenv('API_KEY')
+
 #function for calling model that returns time-series prediction
 def forecast_model (start_date, end_date, latitude, longitude):
    return (start_date, end_date, latitude, longitude)
@@ -43,28 +45,28 @@ tools = [
 
 
 def chat_with_model():
-    # Start an empty message history
+    # start an empty message history
     messages = [
         {"role": "system", "content": "You are a helpful assistant that can create time-series forecast graphs for water quality of water bodies."}
     ]
 
     while True:
-        # Get user input
+        # get user input
         user_input = input("User: ")
         messages.append({"role": "user", "content": user_input})
 
-        # Call OpenAI API with function calling
+        # call OpenAI API with function calling
         response = openai.chat.completions.create(
             model="gpt-4o",
             messages=messages,
             tools=tools
         )
 
-        # Extract the assistant's response and check if there's a function call
+        # extract the assistant's response and check if there's a function call
         assistant_message = response.choices[0].message
         messages.append(assistant_message)
 
-        # Check if a function call was made
+        # check if a function call was made
         if assistant_message.tool_calls:
                 tool_call = response.choices[0].message.tool_calls[0]
                 arguments = json.loads(tool_call.function.arguments)
@@ -74,17 +76,17 @@ def chat_with_model():
                 latitude = arguments.get('latitude')
                 longitude = arguments.get('longitude')
                 
-                # Call the local function to generate the graph
+                # call the local function to generate the graph
                 result = forecast_model(start_date, end_date, latitude, longitude)
 
-                # Add the function result as a message in the chat history
+                # add the function result as a message in the chat history
                 messages.append({"role": "function", "name": "forecast_model", "content": result})
                 print(f"Assistant (Function Result): {result}")
                 break
         else:
-                # Print the assistant's text response
+                # print the assistant's text response
                 print(f"Assistant: {assistant_message.content}")
 
-# Run the chat
+# run the chat
 chat_with_model()
 

@@ -3,7 +3,7 @@
 ## Description
 Forecast water quality indices by leveraging ML and generative AI techniques.
 
-## Installation
+## Set-Up Instructions
 Follow these steps to set up the project locally:
 
 1. **Clone the Repository**
@@ -13,20 +13,27 @@ Follow these steps to set up the project locally:
 
 2. **Install Dependencies at Root Directory**
    ```bash
-   cd WebApp
-   npm install
+   cd ChatBot
+   pip install flask
+   pip install openai
+   pip install python-dotenv
+   ```
+3. **Environment Configuration**
+
+   Create a .env file in root directory to store OpenAI API key:
+   ```bash
+   API_KEY = "your_openai_api_key_here"
    ```
 
 ## Usage
 To run the application locally:
-
-1. **Start the Development Server**
    ```bash
-   npm run dev
+   cd ChatBot
+   python app.py
    ```
 
 ## Team Members
-- Anissa Patel, Boston University
-- Tishya Kasliwal, Northeastern University
-- Hau Phan, Smith College
-- Aryamani Boruah, UMass Amherst
+- Anissa Patel: Boston University
+- Tishya Kasliwal: Northeastern University
+- Hau Phan: Smith College
+- Aryamani Boruah: UMass Amherst
