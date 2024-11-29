@@ -18,25 +18,23 @@ Follow these steps to set up the project locally:
    pip install openai
    pip install python-dotenv
    ```
-3. **Set Up Environment Variables**
-   Create a .env file
+3. **Environment Configuration**
+
+   Create a .env file in the root of your project directory to store your OpenAI API key:
    ```bash
-   cd ChatBot
-   pip install flask
-   pip install openai
-   pip install python-dotenv
+   API_KEY=your_openai_api_key_here
    ```
 
 ## Usage
 To run the application locally:
-
-1. **Start the Development Server**
    ```bash
-   npm run dev
+   cd BTTAI-AI-Studio
+   cd ChatBot
+   python app.py
    ```
 
 ## Team Members
-- Anissa Patel, Boston University
-- Tishya Kasliwal, Northeastern University
-- Hau Phan, Smith College
-- Aryamani Boruah, UMass Amherst
+- Anissa Patel: Boston University
+- Tishya Kasliwal: Northeastern University
+- Hau Phan: Smith College
+- Aryamani Boruah: UMass Amherst
