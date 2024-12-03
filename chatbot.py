@@ -2,14 +2,25 @@ import openai
 import json
 import os
 from dotenv import load_dotenv
+import pickle
+import sklearn_xarray
+import pmdarima
+import joblib 
 
 # load .env file
 load_dotenv()
 openai.api_key = os.getenv('API_KEY')
 
+
+# Load (deserialize) the model from the file
+# with open("arima_model.pkl", "rb") as file:
+#     model = pickle.load(file)
+
+model = joblib.load("arma_model.joblib")
+
 #function for calling model that returns time-series prediction
 def forecast_model (start_date, end_date, latitude, longitude):
-   return (start_date, end_date, latitude, longitude)
+   return model.predict(17)
 
 tools = [
     {
@@ -88,5 +99,6 @@ def chat_with_model():
                 print(f"Assistant: {assistant_message.content}")
 
 # run the chat
-chat_with_model()
+#chat_with_model()
+print(forecast_model('2024-10-30', '2024-12-30', 39.0968, -120.0324))
 
