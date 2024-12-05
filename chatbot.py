@@ -2,10 +2,11 @@ import openai
 import json
 import os
 from dotenv import load_dotenv
-import pickle
-import sklearn_xarray
-import pmdarima
-import joblib 
+import xarray as xr
+import numpy as np
+import tensorflow as tf
+from sklearn.preprocessing import MinMaxScaler
+import matplotlib.pyplot as plt
 
 # load .env file
 load_dotenv()
@@ -16,11 +17,70 @@ openai.api_key = os.getenv('API_KEY')
 # with open("arima_model.pkl", "rb") as file:
 #     model = pickle.load(file)
 
-model = joblib.load("arma_model.joblib")
+#model = joblib.load("arma_model.joblib")
 
 #function for calling model that returns time-series prediction
-def forecast_model (start_date, end_date, latitude, longitude):
-   return model.predict(17)
+
+# load the model
+loaded_model = tf.keras.models.load_model('lstm_model.h5')
+
+# load the test input, used to do the prediction 
+loaded_test_input = np.load('test_input.npy')
+loaded_train_y_input = np.load('y_train.npy')
+# the chlorophyll subset
+loaded_chl_subset = xr.open_dataarray('chl_subset.nc')
+
+scaler_y = MinMaxScaler(feature_range=(0, 1))
+y_train_scaled = scaler_y.fit_transform(loaded_train_y_input.reshape(-1, 1))
+
+def forecast_model(start_date, end_date, latitude, longitude):
+    current_input = loaded_test_input
+    n_future_steps = 4
+    future_predictions = []
+    for _ in range(n_future_steps):
+        # Predict the next timestep
+        pred = loaded_model.predict(current_input)
+    
+        # Append the prediction to the list
+        future_predictions.append(pred)
+    
+        # Update the input sequence: add the prediction and remove the oldest timestep
+        current_input = np.append(current_input[:, 1:, :], pred.reshape(1, 1, -1), axis=1)
+
+    # Combine all predictions
+    future_predictions = np.array(future_predictions)
+    # print(future_predictions.shape)
+    # print(future_predictions)
+
+    future_predictions = scaler_y.inverse_transform(future_predictions.reshape(-1, 1))
+    future_predictions = future_predictions.reshape(n_future_steps, -1)
+    print(future_predictions)
+    print(future_predictions.shape)
+
+    # Select a timestep to visualize (e.g., the first timestep in the test set)
+    # Select a timestep to visualize (e.g., the first timestep in the test set)
+    timestep = 0
+
+    predictions = future_predictions.reshape((future_predictions.shape[0], loaded_chl_subset.shape[1], loaded_chl_subset.shape[2]))
+    # Extract the data for the selected timestep
+    y_pred_timestep = predictions[timestep]
+
+    # Extract the actual coordinates
+    x_coords = loaded_chl_subset.coords['x'].values
+    y_coords = loaded_chl_subset.coords['y'].values
+
+    # Create the visualization
+    plt.figure(figsize=(8, 6))
+    plt.pcolormesh(x_coords, y_coords, y_pred_timestep, cmap='viridis', shading='auto')
+    plt.colorbar(label='Chlorophyll Value')
+    plt.title(f'Predicted Chlorophyll Values at Timestep {timestep}')
+    plt.xlabel('X Coordinate')
+    plt.ylabel('Y Coordinate')
+    plt.show()
+
+    # dummy implementation of the forecast model function
+    #return f"Forecast from {start_date} to {end_date} at ({latitude}, {longitude})"
+
 
 tools = [
     {
@@ -99,6 +159,6 @@ def chat_with_model():
                 print(f"Assistant: {assistant_message.content}")
 
 # run the chat
-#chat_with_model()
-print(forecast_model('2024-10-30', '2024-12-30', 39.0968, -120.0324))
+chat_with_model()
+#print(forecast_model('2024-10-30', '2024-12-30', 39.0968, -120.0324))
 
