@@ -6,7 +6,7 @@ Forecast water quality indices by leveraging ML and generative AI techniques.
 ## Demo
 
 <video controls width="100%">
-    <source src="data/chatbotrecording.mov" type="video/mp4">
+    <source src="data/chatbotrecording.mov" type="video/quicktime">
     Your browser does not support the video tag.
 </video>
 
