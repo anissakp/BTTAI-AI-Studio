@@ -1,4 +1,4 @@
-# Break Through Tech AI Studio Project
+# AI Studio Project with Microsoft
 
 ## Description
 Forecast water quality indices by leveraging ML and generative AI techniques.
